@@ -40,7 +40,7 @@ $app->get('/', function () {
  */
 $app->get('/pets', [
     new DogsController(),
-    "getDogs"
+    "get"
 ]);
 
 $app->get('/pets/{$id}', [
@@ -48,17 +48,22 @@ $app->get('/pets/{$id}', [
     "getDog"
 ]);
 
-$app->post('/pets/crear', [
+$app->get('/pets?name={$name}', [
+    new DogsController(),
+    "getDogName"
+]);
+
+$app->post('/pets', [
     new DogsController(),
     "createDogs"
 ]);
 
-$app->put('/pets/actualizar/{$id}', [
+$app->put('/pets/{$id}', [
     new DogsController(),
     "updateDogs"
 ]);
 
-$app->delete('/pets/eliminar/{$id}', [
+$app->delete('/pets/{$id}', [
     new DogsController(),
     "deleteDogs"
 ]);
@@ -76,7 +81,8 @@ $app->delete('/pets/eliminar/{$id}', [
 /**
  * Not found handler
  */
-$app->notFound(function () use($app) {
-    $app->response->setStatusCode(404, "Not Found")->sendHeaders();
-    echo 'Estás donde no es';
-});
+$app->notFound([
+    new ErrorhandlerController(),
+    'notFound'
+]
+);

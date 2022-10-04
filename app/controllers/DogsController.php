@@ -18,8 +18,25 @@ class DogsController extends ControllerBase
 
      public function getDog($id)
     {
-      $dog = Dogs::find($id)->toArray();
-      $this->jsonResponse($dog);
+        echo 'Este es el id'. $id;
+        try {
+            $dog = Dogs::find($id)->toArray();
+            $this->jsonResponse($dog);
+        } catch (Exception $e) {
+            $error = ["message"=> "Ups, error ocurred"];
+            $this->jsonResponse($error, 400, 'Bad Request');
+        }
+    } 
+
+    public function getDogName($name)
+    {
+        try {
+            $dog = Dogs::find('name =' . $name)->toArray();
+            $this->jsonResponse($dog);
+        } catch (Exception $e) {
+            $error = ["message"=> "Ups, error ocurred"];
+            $this->jsonResponse($error, 400, 'Bad Request');
+        }
     } 
 
     
